@@ -59,18 +59,88 @@ void printPrefix(BSTree t) {
 }
 
 // To be explained
-int TreeNumNodes(BSTree t);
+int TreeNumNodes(BSTree t) {
+    if (t == NULL) {
+        return 0;
+    } else {
+        int leftNodes = TreeNumNodes(t->left);
+        int rightNodes = TreeNumNodes(t->right);
+
+        return leftNodes + rightNodes + 1;
+    }
+}
+#define Q1
 // To be explained
-int TreeHeight(BSTree t);
+int TreeHeight(BSTree t) {
+    if (t == NULL) {
+        return 0;
+    } else {
+        int leftHeight = TreeHeight(t->left);
+        int rightHeight = TreeHeight(t->right);
+
+        if (leftHeight > rightHeight) {
+            return leftHeight + 1;
+        } else {
+            return rightHeight + 1;
+        }
+    }
+}
 
 // TODO: Q2
-int countInternal(BSTree t);
+int countInternal(BSTree t) {
+    if (t == NULL) {
+        return 0;
+    } else if (t->left == NULL && t->right == NULL) {
+        return 0;
+    } else {
+        return countInternal(t->left) + countInternal(t->right) + 1;
+    }
+}
+
 // TODO: Q3
-int nodeDepth(BSTree t);
+int nodeDepth(BSTree t, int key) {
+    if (t == NULL) {
+        return -1;
+    } else if (key < t->value) {
+        int depth = nodeDepth(t->left, key);
+        if (depth == -1) return -1;
+        return depth + 1;
+    } else if (key > t->value) {
+        int depth = nodeDepth(t->right, key);
+        if (depth == -1) return -1;
+        return depth + 1;
+    } else {
+        return 0;
+    }
+}
+
 // TODO: Q4
-int BSTreeMaxBranchLen(BSTree t);
+int BSTreeMaxBranchLen(BSTree t) {
+    if (t == NULL) return 0;
+    else if (t->left == NULL && t->right == NULL) {
+        return 0;
+    } else {
+        int leftLen = BSTreeMaxBranchLen(t->left);
+        int rightLen = BSTreeMaxBranchLen(t->right);
+
+        if (leftLen > rightLen) {
+            return leftLen + 1;
+        } else {
+            return rightLen + 1;
+        }
+    }
+}
+#define Q5
 // TODO: Q5
-int BSTWidth(BSTree t);
+int BSTWidth(BSTree t) {
+    if (t == NULL) return 0;
+    else {
+        int left = BSTWidth(t->left);
+        int right = BSTWidth(t->right);
+        return left + right + 3;
+    }
+    // return TreeNumNodes(t) * 3;
+}
 
 BSTree constructN(int n) {
     int values[7] = {5, 8, 3, 4, 9, 1, 7};
